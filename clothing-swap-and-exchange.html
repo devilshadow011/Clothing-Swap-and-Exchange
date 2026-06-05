@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagnick Store - Clothing Swap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ============================================
+           HEADER / NAVIGATION STYLES
+        ============================================ */
+        :root {
+            --primary: #ff4757;
+            --secondary: #2f3542;
+            --light: #f1f2f6;
+            --white: #ffffff;   
+            --dark: #1e272e;
+            --gray: #747d8c;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:#f8f9fa;
+            min-height:200vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            height: 75px;
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition:0.3s;
+        }
+
+        .nav-container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transform: rotate(-5deg);
+            transition: var(--transition);
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        /* Nav Links */
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links > li > a {
+            position: relative;
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            font-size: 15px;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .hover-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links > li > a:hover .hover-line,
+        .nav-links > li > a.active .hover-line {
+            width: 100%;
+        }
+
+        .nav-links > li > a:hover,
+        .nav-links > li > a.active {
+            color: var(--primary);
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 120%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--white);
+            width: 200px;
+            padding: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            list-style: none;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 10px 25px;
+            text-decoration:none;
+            color: var(--secondary);
+        }
+
+        .dropdown-menu li a:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        /* Icons */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--light);
+            border-radius: 25px;
+            padding: 5px 15px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 120px;
+        }
+
+        .search-box button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .icon-btn {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:50%;
+            color:var(--secondary);
+            text-decoration:none;
+            transition:.3s;
+        }
+
+        .icon-btn:hover{
+            background:var(--light);
+            color:var(--primary);
+        }
+
+        .badge{
+            position:absolute;
+            top:2px;
+            right:2px;
+            width:18px;
+            height:18px;
+            background:var(--primary);
+            color:#fff;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:10px;
+        }
+
+        .notification-dot{
+            position:absolute;
+            top:5px;
+            right:5px;
+            width:8px;
+            height:8px;
+            background:red;
+            border-radius:50%;
+        }
+
+        /* Account */
+        .account-dropdown{
+            position:relative;
+        }
+
+        .account-btn{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            border:none;
+            background:var(--light);
+            padding:5px 15px 5px 5px;
+            border-radius:30px;
+            cursor:pointer;
+        }
+
+        .user-avatar{
+            width:30px;
+            height:30px;
+            border-radius:50%;
+            background:var(--primary);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight: 600;
+        }
+
+        .account-menu{
+            position:absolute;
+            top:120%;
+            right:0;
+            width:220px;
+            background:white;
+            border-radius:12px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.15);
+            padding:15px 0;
+            opacity:0;
+            visibility:hidden;
+            transition:.3s;
+        }
+
+        .account-dropdown:hover .account-menu{
+            opacity:1;
+            visibility:visible;
+        }
+
+        .user-details{
+            padding:0 20px 15px;
+            border-bottom:1px solid #eee;
+            margin-bottom:10px;
+        }
+
+        .account-menu a{
+            display:flex;
+            gap:10px;
+            padding:10px 20px;
+            text-decoration:none;
+            color:var(--secondary);
+        }
+
+        .account-menu a:hover{
+            background:#f5f5f5;
+            color:var(--primary);
+        }
+
+        /* Mobile */
+        .mobile-toggle{
+            display:none;
+            font-size:24px;
+            cursor:pointer;
+            color: var(--secondary);
+        }
+
+        @media(max-width:992px){
+            .search-box{
+                display:none;
+            }
+        }
+
+        @media(max-width:768px){
+            .nav-icons{
+                display:none;
+            }
+
+            .mobile-toggle{
+                display:block;
+            }
+
+            .nav-links{
+                position:fixed;
+                top:75px;
+                left:0;
+                width:100%;
+                background:white;
+                flex-direction:column;
+                padding:20px;
+                transform:translateY(-150%);
+                transition:.4s;
+                gap:0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            }
+
+            .nav-links.mobile-active{
+                transform:translateY(0);
+            }
+
+            .nav-links li{
+                width:100%;
+                border-bottom:1px solid #eee;
+            }
+
+            .nav-links li a{
+                padding:15px 0;
+            }
+
+            .dropdown-menu{
+                position:static;
+                width:100%;
+                display:none;
+                opacity:1;
+                visibility:visible;
+                transform:none;
+                box-shadow:none;
+                background:#f8f9fa;
+            }
+
+            .dropdown.active .dropdown-menu{
+                display:block;
+            }
+        }
+
+        /* ##########     Home Page     ########### */
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 80vh;
+            background: url('https://images.unsplash.com/photo-1489987707025-afc232f7ea60?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-top: 75px;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--white);
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            opacity: 0.9;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 15px 35px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            margin-right: 15px;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover { background: var(--white); color: var(--dark); }
+
+        /* --- Filters --- */
+        .filters-section {
+            background: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 75px;
+            z-index: 900;
+        }
+
+        .filters-section .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .filter-options select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-width: 150px;
+            outline: none;
+            cursor: pointer;
+            background: var(--white);
+        }
+
+        /* --- Products Section --- */
+        .products-section {
+            padding: 60px 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .view-toggle i {
+            margin-left: 15px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .view-toggle i.active { color: var(--primary); }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- Product Card --- */
+        .product-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-img {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .img-container {
+            height: 250px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .condition-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .card-body { padding: 15px; }
+
+        .card-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f1f2f6;
+            padding-top: 10px;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-swap {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .load-more-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .btn-load-more {
+            padding: 12px 40px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-load-more:hover { opacity: 0.8; }
+
+        /* --- Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 10px;
+            position: relative;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 10;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .modal-image { height: 500px; }
+
+        .modal-details {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-details h2 { margin-bottom: 15px; color: var(--dark); }
+
+        .meta-info { margin-bottom: 20px; }
+
+        .modal .badge {
+            background: var(--light);
+            padding: 5px 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: var(--dark);
+            position: static;
+            width: auto;
+            height: auto;
+            display: inline-block;
+        }
+
+        .modal-details p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .user-info .user-avatar {
+            width: 40px; height: 40px;
+            background: var(--gray);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-swap-full {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-swap-full:hover { background: #e04050; }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--secondary);
+            color: var(--white);
+            padding-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+
+        .footer-col h3 { margin-bottom: 20px; }
+        .footer-col h3 span { color: var(--primary); }
+        .footer-col h4 { margin-bottom: 15px; color: var(--light); }
+        .footer-col p { color: #bdc3c7; font-size: 14px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: #bdc3c7; text-decoration: none; transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--primary); margin-left: 5px;}
+
+        .footer-bottom {
+            background: var(--dark);
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .modal-body { grid-template-columns: 1fr; }
+            .modal-image { height: 300px; }
+            .modal-image img { border-radius: 10px 10px 0 0; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container nav-container">
+
+        <a href="#" id="navHomeLinkLogo" class="logo">
+            <span class="logo-icon">
+                <i class="fa-solid fa-shirt"></i>
+            </span>
+            <span class="logo-text">
+                Sagnick<span>Store</span>
+            </span>
+        </a>
+
+        <ul class="nav-links">
+            <li>
+                <a href="#" id="navHomeLink" class="active">
+                    <span>Home</span>
+                    <span class="hover-line"></span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" id="navProductsLink">
+                    <span>Products</span>
+                    <span class="hover-line"></span>
+                </a>
+            </li>
+
+            <li class="dropdown">
+                <a href="#">
+                    <span>Categories</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li><a href="Men-Exchange.html">Men's Wear</a></li>
+                    <li><a href="Women-Exchange.html">Women's Wear</a></li>
+                    <li><a href="Shoes.html">Footwear</a></li>
+                    
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" id="navContactLink">
+                    <span>Contact</span>
+                    <span class="hover-line"></span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-icons">
+
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <button>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <a href="#" class="icon-btn">
+                <i class="fa-regular fa-heart"></i>
+                <span class="badge">2</span>
+            </a>
+
+            <a href="#" class="icon-btn">
+                <i class="fa-regular fa-bell"></i>
+                <span class="notification-dot"></span>
+            </a>
+
+            <div class="account-dropdown">
+                <button class="account-btn">
+                    <div id="userAvatarHeader" class="user-avatar">S</div>
+                    <span id="accountTextHeader" class="account-text">Account</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+
+                <div class="account-menu">
+                    <div id="dropdownUserDetails" class="user-details">
+                        <h4>Sagnick User</h4>
+                        <p>sagnick@email.com</p>
+                    </div>
+
+
+                     <a href="siguinpulogin.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Signup-Login
+                    </a>
+
+                    <a href="myorder.html">
+                        <i class="fa-solid fa-box-open"></i>
+                        My Orders
+                    </a>
+
+
+                    <a href="clothing-swap-and-exchange.html" id="logoutSessionBtn">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mobile-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+    </div>
+</nav>
+    
+<section class="home">
+    
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1>Refresh Your Wardrobe.<br>Swap What You Don't Wear.</h1>
+            <p>The sustainable way to upgrade your style. Exchange your old clothes for new favorites absolutely free.</p>
+            <div class="hero-buttons">
+                <a href="#products" id="heroStartSwapBtn" class="btn-primary">Start Swapping</a>
+                <a href="#" class="btn-secondary">Post Item</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="filters-section">
+        <div class="container">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search for jackets, jeans, shoes...">
+            </div>
+            <div class="filter-options">
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="men">Men's Wear</option>
+                    <option value="women">Women's Wear</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="sports">Sports</option>
+                    <option value="accessories">Accessories</option>
+                </select>
+                <select id="sizeFilter">
+                    <option value="all">Any Size</option>
+                    <option value="xs">XS</option>
+                    <option value="s">S</option>
+                    <option value="m">M</option>
+                    <option value="l">L</option>
+                    <option value="xl">XL</option>
+                    <option value="10">10</option>
+                    <option value="38">38</option>
+                    <option value="One Size">One Size</option>
+                </select>
+                <select id="conditionFilter">
+                    <option value="all">Condition</option>
+                    <option value="new">New with Tags</option>
+                    <option value="like new">Like New</option>
+                    <option value="good">Good</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest Product</h2>
+                <div class="view-toggle">
+                    <i class="fa-solid fa-grid active"></i>
+                    <i class="fa-solid fa-list"></i>
+                </div>
+            </div>
+            
+            <div class="product-grid" id="productGrid">
+                </div>
+            
+            <div class="load-more-container">
+                <button id="loadMoreBtn" class="btn-load-more">Load More</button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contactSection">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>Swap<span>Thread</span></h3>
+                <p>The premier platform for sustainable fashion exchange. Give your clothes a second life.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Safety Guidelines</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><i class="fa-solid fa-envelope"></i> support@swapthread.com</li>
+                    <li><i class="fa-solid fa-phone"></i> +1 234 567 890</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SwapThread Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="" alt="Product" id="modalImg">
+                </div>
+                <div class="modal-details">
+                    <h2 id="modalTitle">Product Title</h2>
+                    <div class="meta-info">
+                        <span id="modalSize" class="badge">Size M</span>
+                        <span id="modalCondition" class="badge">Like New</span>
+                    </div>
+                    <p id="modalDesc">Description goes here.</p>
+                    
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <h4 id="modalUser">User Name</h4>
+                            <small>Member since 2026</small>
+                        </div>
+                    </div>
+
+                    <button id="executeBackendSwapBtn" class="btn-swap-full">Request Swap</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Global Database Variables Connection Context
+const BACKEND_URL = window.location.origin; // Dynamically uses base location address
+const sessionToken = localStorage.getItem('token');
+let selectedProductContext = null;
+
+// Mobile Menu Toggle
+const mobileToggle = document.querySelector('.mobile-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+mobileToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('mobile-active');
+    const icon = mobileToggle.querySelector('i');
+    if(navLinks.classList.contains('mobile-active')){
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+    }else{
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+    }
+});
+
+// Mobile Dropdown
+const dropdownTrigger = document.querySelector('.dropdown > a');
+if(dropdownTrigger) {
+    dropdownTrigger.addEventListener('click', function(e){
+        if(window.innerWidth <= 768){
+            e.preventDefault();
+            document.querySelector('.dropdown').classList.toggle('active');
+        }
+    });
+}
+
+// Navbar Scroll Effect
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if(window.scrollY > 50){
+        navbar.style.height = '65px';
+        navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+    }else{
+        navbar.style.height = '75px';
+        navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.06)';
+    }
+});
+
+// Animation Systems Hook on Windows Load 
+window.addEventListener('load', () => {
+    const logo = document.querySelector('.logo');
+    const links = document.querySelectorAll('.nav-links li');
+    const icons = document.querySelectorAll('.nav-icons > *');
+
+    if(logo) {
+        logo.style.opacity = '0';
+        logo.style.transform = 'translateX(-20px)';
+        logo.style.transition = 'all 0.5s ease';
+        setTimeout(() => {
+            logo.style.opacity = '1';
+            logo.style.transform = 'translateX(0)';
+        }, 100);
+    }
+
+    links.forEach((link,index) => {
+        link.style.opacity = '0';
+        link.style.transform = 'translateY(-10px)';
+        link.style.transition = 'all 0.4s ease';
+        setTimeout(() => {
+            link.style.opacity = '1';
+            link.style.transform = 'translateY(0)';
+        }, 200 + index * 100);
+    });
+
+    icons.forEach((icon,index) => {
+        icon.style.opacity = '0';
+        icon.style.transition = 'all 0.4s ease';
+        setTimeout(() => {
+            icon.style.opacity = '1';
+        }, 600 + index * 100);
+    });
+    
+    // Auto sync state data on render initialization
+    syncUserAuthenticationState();
+    setupSmoothScrollingEngine();
+});
+
+// --- Sample Data (Mock Database) ---
+const products = [
+    {
+        id: 1,
+        title: "Vintage Denim Jacket",
+        category: "men",
+        size: "L",
+        condition: "Like New",
+        user: "AlexGreen",
+        image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Classic vintage denim jacket from the 90s. Great condition, no tears or stains. Perfect for casual outings."
+    },
+    {
+        id: 2,
+        title: "Floral Summer Dress",
+        category: "women",
+        size: "M",
+        condition: "Good",
+        user: "SarahStyle",
+        image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Beautiful floral dress, worn only twice. Perfect for summer outing. Very flowy and comfortable."
+    },
+    {
+        id: 3,
+        title: "Nike Air Max 90",
+        category: "shoes",
+        size: "10",
+        condition: "New",
+        user: "SneakerHead",
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Brand new in box. Bought wrong size, looking to swap for size 9 or 10."
+    },
+    {
+        id: 4,
+        title: "Leather Biker Jacket",
+        category: "men",
+        size: "XL",
+        condition: "Good",
+        user: "MikeRo",
+        image: "https://images.unsplash.com/photo-1551028919-ac66e7e38b30?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Genuine leather biker jacket. Some wear on the collar but adds character."
+    },
+    {
+        id: 5,
+        title: "Designer Silk Scarf",
+        category: "accessories",
+        size: "One Size",
+        condition: "New",
+        user: "LuxuryLisa",
+        image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Gucci inspired silk scarf. Unused tags attached. High quality."
+    },
+    {
+        id: 6,
+        title: "Oversized Hoodie",
+        category: "men",
+        size: "XL",
+        condition: "Good",
+        user: "ChillVibes",
+        image: "https://images.unsplash.com/photo-1556821840-3a63f90809a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Super comfortable oversized hoodie. Gray color, soft cotton."
+    },
+    {
+        id: 7,
+        title: "Red High Heels",
+        category: "women",
+        size: "38",
+        condition: "Like New",
+        user: "FashionFan",
+        image: "https://images.unsplash.com/photo-1543163521-1bf539eb6c93?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Red stiletto heels, worn once to a party. Size 38 (EU)."
+    },
+    {
+        id: 8,
+        title: "Classic Analog Watch",
+        category: "accessories",
+        size: "One Size",
+        condition: "Good",
+        user: "TimeTraveler",
+        image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        description: "Leather strap analog watch. Battery needs change, but mechanical movement is fine."
+    }
+];
+
+// --- DOM Elements ---
+const productGrid = document.getElementById('productGrid');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const sizeFilter = document.getElementById('sizeFilter');
+const conditionFilter = document.getElementById('conditionFilter');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+// --- Modal Elements ---
+const modal = document.getElementById('itemModal');
+const closeModal = document.querySelector('.close-modal');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalSize = document.getElementById('modalSize');
+const modalCondition = document.getElementById('modalCondition');
+const modalDesc = document.getElementById('modalDesc');
+const modalUser = document.getElementById('modalUser');
+
+// --- Render Function ---
+function renderProducts(items) {
+    productGrid.innerHTML = '';
+    
+    if (items.length === 0) {
+        productGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: #747d8c;">No items found matching your filters.</p>';
+        return;
+    }
+
+    items.forEach(product => {
+        const card = document.createElement('div');
+        card.classList.add('product-card');
+        
+        card.innerHTML = `
+            <div class="img-container">
+                <span class="condition-badge">${product.condition}</span>
+                <img src="${product.image}" alt="${product.title}" class="card-img">
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">${product.title}</h3>
+                <div class="card-meta">
+                    <span>Size: <b>${product.size}</b></span>
+                    <span>Type: ${product.category}</span>
+                </div>
+                <div class="card-footer">
+                    <span class="user-name"><i class="fa-solid fa-user"></i> ${product.user}</span>
+                    <button class="btn-swap" onclick="openModal(${product.id})">Swap</button>
+                </div>
+            </div>
+        `;
+        
+        productGrid.appendChild(card);
+    });
+}
+
+// --- Filter Logic ---
+function filterProducts() {
+    const searchValue = searchInput.value.toLowerCase();
+    const categoryValue = categoryFilter.value;
+    const sizeValue = sizeFilter.value;
+    const conditionValue = conditionFilter.value;
+
+    const filtered = products.filter(product => {
+        const matchesSearch = product.title.toLowerCase().includes(searchValue);
+        const matchesCategory = categoryValue === 'all' || product.category === categoryValue;
+        const matchesSize = sizeValue === 'all' || product.size.toLowerCase() === sizeValue.toLowerCase();
+        const matchesCondition = conditionValue === 'all' || product.condition.toLowerCase() === conditionValue.toLowerCase();
+
+        return matchesSearch && matchesCategory && matchesSize && matchesCondition;
+    });
+
+    renderProducts(filtered);
+}
+
+// --- Event Listeners for Filters ---
+searchInput.addEventListener('input', filterProducts);
+categoryFilter.addEventListener('change', filterProducts);
+sizeFilter.addEventListener('change', filterProducts);
+conditionFilter.addEventListener('change', filterProducts);
+
+// --- Modal Functions ---
+window.openModal = function(id) {
+    const product = products.find(p => p.id === id);
+    if (product) {
+        selectedProductContext = product; // Injected into global variable tracking state
+        modalImg.src = product.image;
+        modalTitle.textContent = product.title;
+        modalSize.textContent = `Size: ${product.size}`;
+        modalCondition.textContent = product.condition;
+        modalDesc.textContent = product.description;
+        modalUser.textContent = product.user;
+        
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+};
+
+if(closeModal) {
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+}
+
+// Close modal if clicking outside content
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+// --- Load More (Simulation) ---
+loadMoreBtn.addEventListener('click', () => {
+    loadMoreBtn.textContent = "Loading...";
+    setTimeout(() => {
+        loadMoreBtn.textContent = "No More Items";
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.style.backgroundColor = "#ccc";
+    }, 1000);
+});
+
+// ==========================================================================
+// PROBLEM 1 RESOLUTION - SMOOTH LINK SCROLLING ENGINE
+// ==========================================================================
+function setupSmoothScrollingEngine() {
+    const homeTriggers = [document.getElementById('navHomeLink'), document.getElementById('navHomeLinkLogo')];
+    const productTriggers = [document.getElementById('navProductsLink'), document.getElementById('heroStartSwapBtn')];
+    const contactTrigger = document.getElementById('navContactLink');
+
+    const handleScrollTransition = (e, targetSelector) => {
+        e.preventDefault();
+        const targetElement = document.querySelector(targetSelector);
+        if(targetElement) {
+            // Mobile active nav list toggle protection
+            if(navLinks.classList.contains('mobile-active')) {
+                mobileToggle.click();
+            }
+            
+            // Clean link highlights status swapping
+            document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+            const dynamicActiveLink = document.getElementById(
+                targetSelector === '.home' ? 'navHomeLink' : (targetSelector === '#products' ? 'navProductsLink' : 'navContactLink')
+            );
+            if(dynamicActiveLink) dynamicActiveLink.classList.add('active');
+
+            const navbarHeight = 75;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+    };
+
+    homeTriggers.forEach(btn => {
+        if(btn) btn.addEventListener('click', (e) => handleScrollTransition(e, '.home'));
+    });
+    productTriggers.forEach(btn => {
+        if(btn) btn.addEventListener('click', (e) => handleScrollTransition(e, '#products'));
+    });
+    if(contactTrigger) {
+        contactTrigger.addEventListener('click', (e) => handleScrollTransition(e, '#contactSection'));
+    }
+}
+
+// ==========================================================================
+// PROBLEM 2 RESOLUTION - USER PROFILE SESSION & REAL LOGOUT SYNC
+// ==========================================================================
+function syncUserAuthenticationState() {
+    const userAvatarHeader = document.getElementById('userAvatarHeader');
+    const accountTextHeader = document.getElementById('accountTextHeader');
+    const dropdownUserDetails = document.getElementById('dropdownUserDetails');
+    const logoutSessionBtn = document.getElementById('logoutSessionBtn');
+
+    const rawUserData = localStorage.getItem('user');
+
+    if(sessionToken && rawUserData) {
+        try {
+            const userPayload = JSON.parse(rawUserData);
+            
+            // 1. Changing header profile avatar first character
+            if(userAvatarHeader && userPayload.name) {
+                userAvatarHeader.textContent = userPayload.name.charAt(0).toUpperCase();
+            }
+            
+            // 2. Replacing standard "Account" placeholder label to user's first name 
+            if(accountTextHeader && userPayload.name) {
+                accountTextHeader.textContent = userPayload.name.split(' ')[0];
+            }
+            
+            // 3. Rendering user explicit data records securely into drop menus
+            if(dropdownUserDetails) {
+                dropdownUserDetails.innerHTML = `
+                    <h4>${userPayload.name}</h4>
+                    <p style="font-size: 11px; color: var(--gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${userPayload.email}</p>
+                `;
+            }
+        } catch(error) {
+            console.error("Session authentication parsing runtime exception caught:", error);
+        }
+    } else {
+        // Safe context state structural fallbacks if session isn't available
+        if(accountTextHeader) accountTextHeader.textContent = "Guest";
+        if(userAvatarHeader) userAvatarHeader.textContent = "G";
+        if(dropdownUserDetails) {
+            dropdownUserDetails.innerHTML = `
+                <h4>Guest Mode</h4>
+                <p>Please register or sign in</p>
+            `;
+        }
+    }
+
+    // Interactive Session Cleanup Controller Engine (Logout Activation Trigger)
+    if(logoutSessionBtn) {
+        logoutSessionBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            alert("Session closed successfully. Navigating back to authentication terminal.");
+            window.location.href = 'auth'; // Automatically takes user to /auth get web router handler
+        });
+    }
+}
+
+// ==========================================================================
+// DB TRANSMISSION MODULE HOOKS - REAL POST TRANSACTION TO MODEL COLLECTION
+// ==========================================================================
+const executeBackendSwapBtn = document.getElementById('executeBackendSwapBtn');
+if(executeBackendSwapBtn) {
+    executeBackendSwapBtn.addEventListener('click', async () => {
+        if(!sessionToken) {
+            alert("🔒 Access Terminated: Accessing clothing swap transfers requires dynamic login identity authentication. Redirecting to authentication terminal.");
+            window.location.href = 'auth';
+            return;
+        }
+
+        if(!selectedProductContext) return;
+
+        executeBackendSwapBtn.disabled = true;
+        executeBackendSwapBtn.textContent = "Transmitting to DB...";
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/requests/action`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionToken}`
+                },
+                body: JSON.stringify({
+                    productName: selectedProductContext.title,
+                    requestType: "swap"
+                })
+            });
+
+            const result = await response.json();
+
+            if(response.ok) {
+                alert(`🎉 Success! Your database entry swap request for "${selectedProductContext.title}" has been safely captured on Cluster Cloud.`);
+                if(modal) modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            } else {
+                alert(`DB Request Denied: ${result.msg || "Internal database routing state error."}`);
+            }
+        } catch(err) {
+            console.error("Cluster instance fetch transmission network down:", err);
+            alert("Connection Refused: Backend cluster server could not process the package. Verify server.js is online.");
+        } finally {
+            executeBackendSwapBtn.disabled = false;
+            executeBackendSwapBtn.textContent = "Request Swap";
+        }
+    });
+}
+
+// --- Initial Render ---
+renderProducts(products);
+</script>
+
+</body>
+</html>
