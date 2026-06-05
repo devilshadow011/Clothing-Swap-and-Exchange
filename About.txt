@@ -1,0 +1,29 @@
+|-------------------------------|
+|    Page Structure             |
+|-------------------------------|
+
+Clothing-Swap-and-Exchange/
+│
+├── swap-backend/
+│   ├── node_modules/
+│   ├── .env
+│   ├── .gitignore
+│   ├── models.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── server.js
+│   └── server-backup.txt
+│
+├── clothing-swap-and-exchange.html   # Home Page
+├── siguinpulogin.html                # Login & Signup
+│
+├── Men-Exchange.html                 # Men's Clothing Exchange
+├── Women-Exchange.html               # Women's Clothing Exchange
+├── Shoes.html                        # Shoes Exchange Section
+├── myorder.html                      # User Orders Page
+│
+└── README.md
+
+=====================================================================
+| LANGUAGE USED----->> HTML, CSS, JS , Mngodb , Node.js , Express.js |
+=====================================================================
