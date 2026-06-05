@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagnick Store - Men & Boys Exchange Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.15), 0 10px 10px -5px rgba(59, 130, 246, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body id="home-top-section" class="bg-blue-50/10 text-gray-800 font-sans min-h-screen scroll-smooth"></body>
+
+    <header class="bg-white shadow-md sticky top-0 z-40 backdrop-blur-md bg-white/95 border-b border-blue-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-2 cursor-pointer" onclick="resetToHome()">
+                <div class="p-2 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl text-white shadow-md shadow-blue-200">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                </div>
+                <span class="text-xl font-black tracking-tight text-gray-900">Sagnick<span class="text-blue-600">Store</span></span>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-bold text-gray-600 text-sm">
+                <button onclick="resetToHome()" class="hover:text-blue-600 transition flex items-center gap-1 cursor-pointer focus:outline-none">
+                    <i data-lucide="home" class="w-4 h-4 text-blue-500"></i> Home
+                </button>
+                
+                <div class="flex items-center gap-1 bg-gray-50 border border-blue-200/80 px-2.5 py-1.5 rounded-xl shadow-sm hover:border-blue-400 transition">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-blue-600"></i>
+                    <select id="state-selector" class="bg-transparent font-bold text-gray-700 text-xs focus:outline-none cursor-pointer">
+                        <option value="All India">All India (States)</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="West Bengal">West Bengal</option>
+                    </select>
+                </div>
+
+                <button onclick="scrollToProducts()" class="hover:text-blue-600 transition flex items-center gap-1 cursor-pointer focus:outline-none">
+                    <i data-lucide="layers" class="w-4 h-4 text-blue-500"></i> Products
+                </button>
+                
+                <a href="#" class="hover:text-blue-600 transition flex items-center gap-1"><i data-lucide="heart" class="w-4 h-4 text-blue-500"></i> Wishlist</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div id="navUserIdentity" class="flex items-center gap-2 bg-gray-50 border border-gray-200/60 px-3 py-1.5 rounded-full shadow-sm hidden">
+                    <div id="navUserAvatar" class="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-black shadow-inner">U</div>
+                    <span id="navUserName" class="text-xs font-bold text-gray-700 max-w-[120px] truncate">User</span>
+                </div>
+                
+                <button onclick="openSellModal()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-xl font-black tracking-wide uppercase text-xs transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2 transform active:scale-95">
+                    <i data-lucide="plus-square" class="w-4 h-4"></i> Sell
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-gradient-to-r from-slate-100 via-blue-50 to-indigo-100 py-12 px-4 text-center animate__animated animate__fadeIn">
+        <div class="max-w-4xl mx-auto">
+            <span class="text-xs font-black tracking-widest text-blue-700 uppercase bg-white/90 backdrop-blur px-3.5 py-1.5 rounded-full shadow-sm border border-blue-200">Men & Boys Exchange Page</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-4 mb-3">Upgrade Your Wardrobe. Swap Your Style.</h1>
+            <p class="text-gray-600 max-w-xl mx-auto text-sm md:text-base">Buy, Sell, or Exchange pre-loved or new men's and boys' apparel and accessories straight across India.</p>
+        </div>
+    </section>
+
+    <main id="main-product-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-blue-100/60 mb-8 flex flex-col lg:flex-row gap-4 justify-between items-center animate__animated animate__fadeInUp">
+            <div class="flex bg-gray-100 p-1 rounded-xl w-full lg:w-auto shadow-inner">
+                <button onclick="filterSegment('all')" id="btn-all" class="flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 bg-white text-blue-600 shadow-sm">
+                    All Segments
+                </button>
+                <button onclick="filterSegment('men')" id="btn-men" class="flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-gray-600 hover:text-blue-600">
+                    Men Section
+                </button>
+                <button onclick="filterSegment('boys')" id="btn-boys" class="flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-gray-600 hover:text-blue-600">
+                    Boys Section
+                </button>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto justify-center">
+                <span class="text-xs font-black text-gray-400 uppercase tracking-wider mr-1">Product Type:</span>
+                <button onclick="filterType('all-types')" id="type-all" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-gray-900 text-white transition-all duration-200 shadow-md">
+                    All Products
+                </button>
+                <button onclick="filterType('Clothing')" id="type-clothing" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm">
+                    Clothing
+                </button>
+                <button onclick="filterType('General Product')" id="type-general" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm">
+                    Accessories
+                </button>
+            </div>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            </div>
+    </main>
+
+    <div id="details-modal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
+            <button onclick="closeModal('details-modal')" class="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-md hover:bg-blue-600 hover:text-white text-gray-700 transition-all duration-200 z-10">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="overflow-y-auto custom-scrollbar flex-1 text-sm">
+                <div class="h-64 bg-gray-100 relative">
+                    <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+                    <span id="modal-intent" class="absolute bottom-4 left-4 text-xs font-black px-3 py-1.5 rounded-lg text-white uppercase shadow-md bg-blue-600"></span>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 id="modal-title" class="text-xl font-extrabold text-gray-900"></h3>
+                        <span id="modal-price" class="text-xl font-black text-blue-600 shrink-0 ml-2"></span>
+                    </div>
+                    <p id="modal-category" class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4"></p>
+                    
+                    <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl mb-4 text-sm border border-gray-100">
+                        <div>
+                            <span class="text-xs text-gray-400 block font-bold uppercase tracking-wide">Available Size</span>
+                            <span id="modal-size" class="font-extrabold text-gray-800"></span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-400 block font-bold uppercase tracking-wide">Duration of Use</span>
+                            <span id="modal-usage" class="font-extrabold text-amber-600"></span>
+                        </div>
+                    </div>
+                    
+                    <div id="modal-extra-box" class="bg-gray-50 p-4 rounded-xl mb-4 text-sm border border-gray-100">
+                        <span class="text-xs text-gray-400 block font-bold uppercase tracking-wide">Product Description</span>
+                        <p id="modal-extra" class="text-gray-700 mt-0.5 font-medium"></p>
+                    </div>
+                    
+                    <div class="border border-blue-100 bg-blue-50/30 rounded-2xl p-4 text-sm">
+                        <h4 class="font-black text-blue-800 mb-2 flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4"></i> Seller Contact Info</h4>
+                        <div class="space-y-1 text-gray-700">
+                            <div class="flex justify-between"><span>Phone Number:</span><span id="modal-phone" class="font-bold text-gray-900"></span></div>
+                            <div class="flex justify-between"><span>Seller Email:</span><span id="modal-email" class="font-bold text-blue-600 break-all"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-gray-50 border-t flex justify-end items-center gap-2">
+                <button onclick="closeModal('details-modal')" class="px-5 py-2.5 font-bold text-sm text-gray-500 hover:text-gray-700 transition">Close</button>
+                <button id="modal-cart-btn" class="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all duration-200 shadow-md">
+                    <i data-lucide="shopping-cart" class="w-4 h-4"></i> Add To Cart
+                </button>
+                <a id="modal-call-btn" href="#" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all duration-200 shadow-md">
+                    <i data-lucide="phone" class="w-4 h-4"></i> Call Seller
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="sell-modal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl relative flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-blue-50 to-white rounded-t-3xl">
+                <div>
+                    <h3 class="text-xl font-black text-gray-900 flex items-center gap-2"><i data-lucide="sparkles" class="text-blue-600 w-5 h-5"></i> List Your Product To Sell</h3>
+                </div>
+                <button onclick="closeModal('sell-modal')" class="text-gray-400 hover:text-blue-600 p-1.5 bg-gray-100 rounded-full transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form id="sell-form" onsubmit="handleFormSubmit(event)" class="p-6 overflow-y-auto space-y-4 custom-scrollbar flex-1 text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Product Title *</label>
+                        <input type="text" id="form-title" required placeholder="e.g., Slim Fit Denim Jacket" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Price / Swap Token *</label>
+                        <input type="text" id="form-price" required placeholder="e.g., 500 INR" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Duration of Use *</label>
+                        <input type="text" id="form-usage" required placeholder="e.g., Brand New / 2 Months" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Size Option *</label>
+                        <select id="form-size" required class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="S">S</option>
+                            <option value="M" selected>M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="Size 30">Waist 30</option>
+                            <option value="Size 32">Waist 32</option>
+                            <option value="Boys Wear (Age 9-12)">Boys Wear (Age 9-12)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Choosing Section *</label>
+                        <select id="form-segment" required class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="men">Men Section</option>
+                            <option value="boys">Boys Section</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Product Category *</label>
+                        <select id="form-type" required class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="Clothing">Clothing</option>
+                            <option value="General Product">Accessories / General</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Product Image URL *</label>
+                    <input type="url" id="form-img" required placeholder="https://example.com/image.jpg" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+
+                <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 space-y-3">
+                    <span class="font-bold text-blue-800 text-xs uppercase tracking-wide block">Seller Contact Info</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-0.5">Phone Number *</label>
+                            <input type="tel" id="form-phone" required placeholder="+91 9876543210" class="w-full border border-gray-200 rounded-xl px-3 py-2 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-0.5">Seller Email ID *</label>
+                            <input type="email" id="form-email" required placeholder="name@example.com" class="w-full border border-gray-200 rounded-xl px-3 py-2 focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-0.5">Extra Details</label>
+                        <textarea id="form-extra" placeholder="Fabric or condition description..." rows="2" class="w-full border border-gray-200 rounded-xl px-3 py-1.5 focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('sell-modal')" class="px-5 py-2.5 font-bold text-gray-500 hover:text-gray-700 transition">Cancel</button>
+                    <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-6 py-2.5 rounded-xl shadow-md">Submit Listing</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="success-toast" class="fixed bottom-6 right-6 bg-emerald-600 text-white font-bold px-6 py-4 rounded-2xl shadow-2xl z-50 flex items-center gap-3 hidden">
+        <div class="p-1.5 bg-emerald-700 rounded-lg"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
+        <div>
+            <p id="toast-main-text" class="text-base">Product Added Successfully!</p>
+            <p id="toast-sub-text" class="text-xs font-medium opacity-80"></p>
+        </div>
+    </div>
+
+    <script>
+        // Global State Configuration
+        let currentLoggedInEmail = "demo.user@gmail.com";
+        let activeSegment = 'all';
+        let activeType = 'all-types';
+
+        // Updated Array: Exactly 20 real premium products for Men & Boys
+        let productsBase = [
+            { id: 1, title: "Slim Fit Denim Jacket", price: "899 INR", size: "M", usage: "Worn Twice", segment: "men", type: "Clothing", img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=600", phone: "+91 9988776655", email: "raj.apparel@gmail.com", extra: "100% pure heavy denim cotton material. No color fading.", intent: "Exchange Available" },
+            { id: 2, title: "Nike Air Max Sneakers", price: "2499 INR", size: "Size 42", usage: "6 Months Used", segment: "men", type: "General Product", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", phone: "+91 8877665544", email: "sneakerhead99@gmail.com", extra: "Slight scratches near sole, overall cushion comfort completely intact.", intent: "Instant Swap" },
+            { id: 3, title: "Boys Superhero Printed Hoodie", price: "450 INR", size: "Boys Wear (Age 9-12)", usage: "Brand New", segment: "boys", type: "Clothing", img: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?w=600", phone: "+91 7766554433", email: "momstore_india@gmail.com", extra: "Unused with tags attached. Premium warm inside fleece lining.", intent: "Selling / Gift" },
+            { id: 4, title: "Classic Leather Men's Watch", price: "1200 INR", size: "Standard", usage: "1 Year Old", segment: "men", type: "General Product", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600", phone: "+91 9812345678", email: "amit.time@gmail.com", extra: "Quartz movement with dynamic scratch-proof mineral glass cover.", intent: "Willing to Swap" },
+            { id: 5, title: "Men's Regular Fit Check Shirt", price: "399 INR", size: "L", usage: "3 Months Used", segment: "men", type: "Clothing", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", phone: "+91 9112233445", email: "kabir.wardrobe@gmail.com", extra: "Pure breathable cotton checks, ideal for premium summer office styling.", intent: "Exchange Only" },
+            { id: 6, title: "Boys Camouflage Cargo Shorts", price: "299 INR", size: "Boys Wear (Age 9-12)", usage: "Worn Once", segment: "boys", type: "Clothing", img: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600", phone: "+91 8765432109", email: "kids_fancy@gmail.com", extra: "Sturdy multi-pocket structure, fully adjustable internal waistband.", intent: "Fast Delivery" },
+            { id: 7, title: "Waterproof Travel Backpack", price: "799 INR", size: "30L capacity", usage: "5 Months Used", segment: "men", type: "General Product", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600", phone: "+91 7011223344", email: "rahul_trek@gmail.com", extra: "Dedicated laptop sleeves built-in. Zero stitch tears.", intent: "Instant Swap" },
+            { id: 8, title: "Premium Men's Black Blazer", price: "1899 INR", size: "XL", usage: "Worn Once", segment: "men", type: "Clothing", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600", phone: "+91 9560112233", email: "vikram.suit@gmail.com", extra: "Dry-cleaned and properly packed. Wedding party luxury texture look.", intent: "Direct Selling" },
+            { id: 9, title: "Boys Yellow Cotton Polo Tee", price: "199 INR", size: "Boys Wear (Age 5-8)", usage: "Worn Thrice", segment: "boys", type: "Clothing", img: "https://images.unsplash.com/photo-1622296089863-eb7fc530daa8?w=600", phone: "+91 9444555666", email: "sneha_parent@gmail.com", extra: "Soft pique knit structure fabric. Perfectly clean bright yellow shirt.", intent: "Gift / Exchange" },
+            { id: 10, title: "Wayfarer UV Protected Sunglasses", price: "499 INR", size: "Medium M", usage: "2 Months Used", segment: "men", type: "General Product", img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600", phone: "+91 8130112233", email: "rohit.shades@gmail.com", extra: "Polarized black lens with premium polycarbonate framing setup.", intent: "Swap with Belts" },
+            { id: 11, title: "Men's Solid Grey Sweatpants", price: "450 INR", size: "XL", usage: "1 Month Used", segment: "men", type: "Clothing", img: "https://images.unsplash.com/photo-1551854838-212c50b4c184?w=600", phone: "+91 9000111222", email: "fitness_freak@gmail.com", extra: "Super elastic drawstrings waist lock loop. Comfortable gym fit.", intent: "Available" },
+            { id: 12, title: "Boys Lightweight Running Shoes", price: "599 INR", size: "Size 34", usage: "3 Months Used", segment: "boys", type: "General Product", img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600", phone: "+91 7890123456", email: "arun.sports@gmail.com", extra: "Anti-slip sports rubber base architecture layout safely tuned.", intent: "Instant Swap" },
+            { id: 13, title: "Vintage Men's Denim Shirt", price: "650 INR", size: "L", usage: "6 Months Old", segment: "men", type: "Clothing", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600", phone: "+91 9222333444", email: "vintage_guy@gmail.com", extra: "Lightwash blue casual appearance shirt. Metal press button locks.", intent: "Exchange Mode" },
+            { id: 14, title: "Boys Complete Kurta Pyjama Set", price: "699 INR", size: "Boys Wear (Age 9-12)", usage: "Worn Once", segment: "boys", type: "Clothing", img: "https://images.unsplash.com/photo-1605557202138-097824c3f420?w=600", phone: "+91 8444555111", email: "puja_deals@gmail.com", extra: "Traditional ethnic wear. Pure silk blended weave comfort.", intent: "Selling Fast" },
+            { id: 15, title: "Genuine Brown Leather Belt", price: "250 INR", size: "Size 32", usage: "2 Months Used", segment: "men", type: "General Product", img: "https://images.unsplash.com/photo-1624222247344-550fb8ef5582?w=600", phone: "+91 9333444555", email: "leather_works@gmail.com", extra: "Stainless shiny steel curve buckle setting. Solid dark brown finish.", intent: "Available" },
+            { id: 16, title: "Men's Off-White Winter Sweater", price: "799 INR", size: "M", usage: "1 Season Used", segment: "men", type: "Clothing", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600", phone: "+91 7111222333", email: "himalayan_cozy@gmail.com", extra: "Heavy knits warm wool protect mechanism layer setup layout.", intent: "Swap/Sell" },
+            { id: 17, title: "Boys Graphic Printed T-Shirt", price: "150 INR", size: "Boys Wear (Age 5-8)", usage: "Brand New", segment: "boys", type: "Clothing", img: "https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=600", phone: "+91 9666777888", email: "kids_universe@gmail.com", extra: "100% bio-washed organic safe cotton textile surface skin friendly.", intent: "Gift Token" },
+            { id: 18, title: "Men's Sleek Minimalist Wallet", price: "350 INR", size: "Slim Fit", usage: "Brand New", segment: "men", type: "General Product", img: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600", phone: "+91 8555666777", email: "minimalist_store@gmail.com", extra: "Includes RFID blocking safety features. Holds 6 cards easily.", intent: "Instant Sale" },
+            { id: 19, title: "Men's Distressed Blue Jeans", price: "750 INR", size: "Size 32", usage: "5 Months Old", segment: "men", type: "Clothing", img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600", phone: "+91 9000555666", email: "denim_wash@gmail.com", extra: "Slight knee laser distress design layout. Flexible stretch build fabric.", intent: "Exchange Frame" },
+            { id: 20, title: "Boys Warm Winter Beanie Cap", price: "120 INR", size: "Free Size", usage: "Worn Twice", segment: "boys", type: "General Product", img: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=600", phone: "+91 7999888777", email: "winter_care@gmail.com", extra: "Thick fur inner thermal design, keeps head safe from direct wind chill.", intent: "Gift Bundle" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            syncUserAccountSession();
+            renderProductGrid();
+        });
+
+        // 1. Gmail Account Session Management
+        function syncUserAccountSession() {
+            const rawUser = localStorage.getItem('user');
+            const token = localStorage.getItem('token');
+            const navIdentity = document.getElementById('navUserIdentity');
+            const navAvatar = document.getElementById('navUserAvatar');
+            const navName = document.getElementById('navUserName');
+
+            if (token && rawUser) {
+                try {
+                    const parsedUser = JSON.parse(rawUser);
+                    currentLoggedInEmail = parsedUser.email || "user@example.com";
+                    if (navName) navName.textContent = parsedUser.name || "User";
+                    if (navAvatar && parsedUser.name) navAvatar.textContent = parsedUser.name.charAt(0).toUpperCase();
+                } catch(e) {
+                    console.error("Session matching fallback error:", e);
+                }
+            } else {
+                // Default Active Setup Linked to Gmail
+                currentLoggedInEmail = "sagnick.user@gmail.com";
+                if (navName) navName.textContent = "Sagnick User (Gmail)";
+                if (navAvatar) navAvatar.textContent = "S";
+            }
+            if (navIdentity) navIdentity.classList.remove('hidden');
+        }
+
+        // 2. Render Grid System
+        function renderProductGrid() {
+            const gridContainer = document.getElementById('product-grid');
+            gridContainer.innerHTML = "";
+
+            const filteredList = productsBase.filter(item => {
+                const matchSegment = (activeSegment === 'all' || item.segment === activeSegment);
+                const matchType = (activeType === 'all-types' || item.type === activeType);
+                return matchSegment && matchType;
+            });
+
+            if (filteredList.length === 0) {
+                gridContainer.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-400 font-medium">
+                        <i data-lucide="package-search" class="w-12 h-12 mx-auto mb-2 text-gray-300"></i>
+                        No matching items found.
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            filteredList.forEach(product => {
+                gridContainer.innerHTML += `
+                    <div class="product-card bg-white rounded-2xl overflow-hidden border border-blue-100/70 shadow-sm flex flex-col justify-between">
+                        <div class="relative h-48 bg-gray-50 cursor-pointer" onclick="openDetailsModal(${product.id})">
+                            <img src="${product.img}" alt="${product.title}" class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 left-3 text-[10px] font-black tracking-wider bg-white/90 backdrop-blur text-blue-600 px-2.5 py-1 rounded-md uppercase shadow-sm border border-blue-50">
+                                ${product.intent}
+                            </span>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div class="cursor-pointer mb-2" onclick="openDetailsModal(${product.id})">
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">${product.type} • Size ${product.size}</p>
+                                <h3 class="font-extrabold text-gray-800 text-sm line-clamp-2 hover:text-blue-600 transition">${product.title}</h3>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline justify-between mb-3">
+                                    <span class="text-xs text-gray-400 font-semibold">Use: <span class="text-amber-600 font-bold">${product.usage}</span></span>
+                                    <span class="text-base font-black text-blue-600">${product.price}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1.5">
+                                    <button onclick="openDetailsModal(${product.id})" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-1 rounded-xl font-bold text-xs text-center transition-all duration-200">
+                                        View Details
+                                    </button>
+                                    <button onclick="addItemToUserCart(${product.id})" class="bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white py-2 px-1 rounded-xl font-bold text-xs flex items-center justify-center gap-1 transition-all duration-200">
+                                        <i data-lucide="shopping-cart" class="w-3 h-3"></i> Add Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            lucide.createIcons();
+        }
+
+        // 3. Add To Cart Core Architecture (Gmail Linked Base Pipeline)
+        function addItemToUserCart(productId) {
+            const targetProduct = productsBase.find(p => p.id === productId);
+            if (!targetProduct) return;
+
+            // Generate dynamic unique Gmail repository token mapping pipeline
+            const userCartKey = `cart_db_${currentLoggedInEmail}`;
+            let localCartArray = [];
+
+            try {
+                localCartArray = JSON.parse(localStorage.getItem(userCartKey)) || [];
+            } catch(e) {
+                localCartArray = [];
+            }
+
+            const formattedItem = {
+                id: targetProduct.id + "_" + Date.now(),
+                title: targetProduct.title,
+                size: targetProduct.size,
+                price: targetProduct.price,
+                img: targetProduct.img
+            };
+
+            localCartArray.push(formattedItem);
+            localStorage.setItem(userCartKey, JSON.stringify(localCartArray));
+
+            showDynamicToast("Product Added to Cart! 🛒", `Saved inside account: ${currentLoggedInEmail}`);
+        }
+
+        // 4. Modal Display Operations
+        function openDetailsModal(id) {
+            const product = productsBase.find(p => p.id === id);
+            if(!product) return;
+
+            document.getElementById('modal-img').src = product.img;
+            document.getElementById('modal-title').textContent = product.title;
+            document.getElementById('modal-price').textContent = product.price;
+            document.getElementById('modal-category').textContent = `${product.segment} section • ${product.type}`;
+            document.getElementById('modal-size').textContent = product.size;
+            document.getElementById('modal-usage').textContent = product.usage;
+            document.getElementById('modal-intent').textContent = product.intent;
+            document.getElementById('modal-phone').textContent = product.phone;
+            document.getElementById('modal-email').textContent = product.email;
+            document.getElementById('modal-call-btn').href = `tel:${product.phone}`;
+
+            // Inline cart trigger override mapping action footer modal
+            document.getElementById('modal-cart-btn').onclick = () => {
+                addItemToUserCart(product.id);
+                closeModal('details-modal');
+            };
+
+            document.getElementById('modal-extra').textContent = product.extra || "No additional description added.";
+            
+            const modal = document.getElementById('details-modal');
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function openSellModal() {
+            document.getElementById('sell-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Form Submit Implementation
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const newProduct = {
+                id: productsBase.length + 1,
+                title: document.getElementById('form-title').value,
+                price: document.getElementById('form-price').value,
+                usage: document.getElementById('form-usage').value,
+                size: document.getElementById('form-size').value,
+                segment: document.getElementById('form-segment').value,
+                type: document.getElementById('form-type').value,
+                img: document.getElementById('form-img').value,
+                phone: document.getElementById('form-phone').value,
+                email: document.getElementById('form-email').value,
+                extra: document.getElementById('form-extra').value,
+                intent: "Direct Listing"
+            };
+
+            productsBase.unshift(newProduct);
+            closeModal('sell-modal');
+            renderProductGrid();
+            document.getElementById('sell-form').reset();
+            showDynamicToast("Product Listed! 🎉", "Your item is live inside the store matrix grid.");
+        }
+
+        // Filters UI Update Utilities
+        function filterSegment(seg) {
+            activeSegment = seg;
+            ['all', 'men', 'boys'].forEach(s => {
+                const btn = document.getElementById(`btn-${s}`);
+                if(s === seg) {
+                    btn.className = "flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 bg-white text-blue-600 shadow-sm";
+                } else {
+                    btn.className = "flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-gray-600 hover:text-blue-600";
+                }
+            });
+            renderProductGrid();
+        }
+
+        function filterType(type) {
+            activeType = type;
+            const btnMap = { 'all-types': 'type-all', 'Clothing': 'type-clothing', 'General Product': 'type-general' };
+            Object.keys(btnMap).forEach(key => {
+                const element = document.getElementById(btnMap[key]);
+                if(key === type) {
+                    element.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-gray-900 text-white transition-all duration-200 shadow-md";
+                } else {
+                    element.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm";
+                }
+            });
+            renderProductGrid();
+        }
+
+        function showDynamicToast(main, sub) {
+            const toast = document.getElementById('success-toast');
+            document.getElementById('toast-main-text').textContent = main;
+            document.getElementById('toast-sub-text').textContent = sub;
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 3500);
+        }
+
+        function resetToHome() {
+            filterSegment('all');
+            filterType('all-types');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToProducts() {
+            document.getElementById('main-product-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
