@@ -15,7 +15,6 @@ Clothing-Swap-and-Exchange/
 │   └── server-backup.txt
 │
 ├── clothing-swap-and-exchange.html   # Home Page
-├── indextrial.html                   # Landing Page
 ├── siguinpulogin.html                # Login & Signup
 │
 ├── Men-Exchange.html                 # Men's Clothing Exchange
