@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SagnickStore - Premium Kicks & Shoes Swap</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- EMBEDDED CSS -->
+    <style>
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1f1f1f;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body id="home-top-section" class="bg-zinc-950 text-zinc-100 font-sans min-h-screen scroll-smooth">
+
+    <!-- HEADER SECTION -->
+    <header class="bg-zinc-900/95 shadow-xl sticky top-0 z-40 backdrop-blur-md border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-2 cursor-pointer" onclick="resetToHome()">
+                <div class="p-2 bg-gradient-to-tr from-zinc-700 via-zinc-800 to-neutral-950 rounded-xl text-white shadow-md border border-zinc-700">
+                    <i data-lucide="footprints" class="w-5 h-5 text-zinc-200"></i>
+                </div>
+                <span class="text-xl font-black tracking-tight text-white">Sagnick<span class="text-amber-500">Kicks</span></span>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-bold text-zinc-400 text-sm">
+                <button onclick="resetToHome()" class="hover:text-white transition flex items-center gap-1 cursor-pointer focus:outline-none">
+                    <i data-lucide="home" class="w-4 h-4 text-zinc-500"></i> Home
+                </button>
+                
+                <div class="flex items-center gap-1 bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 rounded-xl shadow-sm">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-500"></i>
+                    <select id="state-selector" class="bg-transparent font-bold text-zinc-300 text-xs focus:outline-none cursor-pointer">
+                        <option value="All India" class="bg-zinc-900">All India (States)</option>
+                        <option value="Delhi" class="bg-zinc-900">Delhi</option>
+                        <option value="Mumbai" class="bg-zinc-900">Mumbai</option>
+                        <option value="Bangalore" class="bg-zinc-900">Bangalore</option>
+                        <option value="Kolkata" class="bg-zinc-900">Kolkata</option>
+                        <option value="Punjab" class="bg-zinc-900">Punjab</option>
+                    </select>
+                </div>
+
+                <button onclick="scrollToProducts()" class="hover:text-white transition flex items-center gap-1 cursor-pointer focus:outline-none">
+                    <i data-lucide="layers" class="w-4 h-4 text-zinc-500"></i> Sneaker Grid
+                </button>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div id="navUserIdentity" class="flex items-center gap-2 bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-full shadow-sm hidden">
+                    <div id="navUserAvatar" class="w-7 h-7 bg-zinc-600 text-white rounded-full flex items-center justify-center text-xs font-black shadow-inner">U</div>
+                    <span id="navUserName" class="text-xs font-bold text-zinc-300 max-w-[120px] truncate">User</span>
+                </div>
+                
+                <button onclick="openSellModal()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black px-6 py-2 rounded-xl font-black tracking-wide uppercase text-xs transition-all duration-200 shadow-md flex items-center gap-2 transform active:scale-95">
+                    <i data-lucide="plus-square" class="w-4 h-4"></i> Swap / List Shoe
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="bg-gradient-to-b from-zinc-900 via-neutral-900 to-zinc-950 py-16 px-4 text-center border-b border-zinc-800/50 animate__animated animate__fadeIn">
+        <div class="max-w-4xl mx-auto">
+            <span class="text-xs font-black tracking-widest text-amber-400 uppercase bg-zinc-800 px-3.5 py-1.5 rounded-full shadow-sm border border-zinc-700">Premium Footwear Exchange Vault</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mt-4 mb-3 tracking-tight">Trade Your Kicks. Swap Your Fit.</h1>
+            <p class="text-zinc-400 max-w-xl mx-auto text-sm md:text-base">Buy, Sell, or Exchange authentic pre-loved or deadstock sneakers, sports shoes, and premium heels across India.</p>
+        </div>
+    </section>
+
+    <!-- MAIN PRODUCT SECTION -->
+    <main id="main-product-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-zinc-900 p-4 rounded-2xl border border-zinc-800/80 mb-8 flex flex-col lg:flex-row gap-4 justify-between items-center animate__animated animate__fadeInUp">
+            
+            <!-- Segment Selectors -->
+            <div class="flex bg-zinc-950 p-1 rounded-xl w-full lg:w-auto border border-zinc-800">
+                <button onclick="filterSegment('all')" id="btn-all" class="flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 bg-zinc-800 text-white shadow-sm border border-zinc-700">
+                    All Kicks
+                </button>
+                <button onclick="filterSegment('men')" id="btn-men" class="flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-zinc-400 hover:text-blue-400">
+                    Men's Vault (Blue)
+                </button>
+                <button onclick="filterSegment('women')" id="btn-women" class="flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-zinc-400 hover:text-pink-400">
+                    Women's Vault (Pink)
+                </button>
+            </div>
+
+            <!-- Type Filter Buttons -->
+            <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto justify-center">
+                <span class="text-xs font-black text-zinc-500 uppercase tracking-wider mr-1">Type:</span>
+                <button onclick="filterType('all-types')" id="type-all" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-black transition-all duration-200 shadow-md">
+                    All Footwear
+                </button>
+                <button onclick="filterType('Sneakers')" id="type-sneakers" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-all duration-200 border border-zinc-700">
+                    Sneakers
+                </button>
+                <button onclick="filterType('Sports/Formal')" id="type-sports" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-all duration-200 border border-zinc-700">
+                    Sports/Athletic
+                </button>
+            </div>
+        </div>
+
+        <!-- Product Grid Dynamic Output -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Dynamic Inject Card -->
+        </div>
+    </main>
+
+    <!-- DETAILS MODAL -->
+    <div id="details-modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300">
+        <div class="bg-zinc-900 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative border border-zinc-800 flex flex-col max-h-[90vh]">
+            <button onclick="closeModal('details-modal')" class="absolute top-4 right-4 bg-zinc-800 p-2 rounded-full text-zinc-400 hover:text-white transition z-10 border border-zinc-700">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="overflow-y-auto custom-scrollbar flex-1 text-sm text-zinc-300">
+                <div class="h-64 bg-zinc-950 relative">
+                    <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+                    <span id="modal-intent" class="absolute bottom-4 left-4 text-xs font-black px-3 py-1.5 rounded-lg text-black uppercase shadow-md bg-amber-400"></span>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 id="modal-title" class="text-xl font-extrabold text-white"></h3>
+                        <span id="modal-price" class="text-xl font-black text-amber-400 shrink-0 ml-2"></span>
+                    </div>
+                    <p id="modal-category" class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-4"></p>
+                    
+                    <div class="grid grid-cols-2 gap-4 bg-zinc-950 p-4 rounded-xl mb-4 text-sm border border-zinc-800">
+                        <div>
+                            <span class="text-xs text-zinc-500 block font-bold uppercase tracking-wide">UK/India Shoe Size</span>
+                            <span id="modal-size" class="font-extrabold text-white text-base"></span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-zinc-500 block font-bold uppercase tracking-wide">Condition / Usage</span>
+                            <span id="modal-usage" class="font-extrabold text-amber-500"></span>
+                        </div>
+                    </div>
+                    
+                    <div id="modal-extra-box" class="bg-zinc-950 p-4 rounded-xl mb-4 text-sm border border-zinc-800">
+                        <span class="text-xs text-zinc-500 block font-bold uppercase tracking-wide">Sole & Box Details</span>
+                        <p id="modal-extra" class="text-zinc-300 mt-0.5 font-medium"></p>
+                    </div>
+                    
+                    <div class="border border-zinc-800 bg-zinc-950 rounded-2xl p-4 text-sm">
+                        <h4 class="font-black text-amber-400 mb-2 flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4"></i> Shoe Owner Contact</h4>
+                        <div class="space-y-1 text-zinc-400">
+                            <div class="flex justify-between"><span>Phone Call:</span><span id="modal-phone" class="font-bold text-white"></span></div>
+                            <div class="flex justify-between"><span>Trader Email:</span><span id="modal-email" class="font-bold text-amber-400 break-all"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-zinc-950 border-t border-zinc-800 flex justify-end items-center gap-2">
+                <button onclick="closeModal('details-modal')" class="px-5 py-2.5 font-bold text-sm text-zinc-500 hover:text-zinc-300 transition">Close</button>
+                <button id="modal-cart-btn" class="bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all duration-200 shadow-md">
+                    <i data-lucide="bookmark" class="w-4 h-4 text-amber-400"></i> Wishlist Kick
+                </button>
+                <a id="modal-call-btn" href="#" class="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-black px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all duration-200 shadow-md">
+                    <i data-lucide="phone" class="w-4 h-4"></i> Call Collector
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SELL MODAL -->
+    <div id="sell-modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300">
+        <div class="bg-zinc-900 rounded-3xl max-w-xl w-full border border-zinc-800 shadow-2xl relative flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-950 rounded-t-3xl">
+                <div>
+                    <h3 class="text-xl font-black text-white flex items-center gap-2"><i data-lucide="sparkles" class="text-amber-400 w-5 h-5"></i> List Your Shoe to Swap/Sell</h3>
+                </div>
+                <button onclick="closeModal('sell-modal')" class="text-zinc-400 hover:text-white p-1.5 bg-zinc-800 rounded-full transition-all border border-zinc-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form id="sell-form" onsubmit="handleFormSubmit(event)" class="p-6 overflow-y-auto space-y-4 custom-scrollbar flex-1 text-sm text-zinc-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-zinc-400 mb-1">Shoe Model Name *</label>
+                        <input type="text" id="form-title" required placeholder="e.g., Nike Air Jordan 1 Low" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-zinc-400 mb-1">Price / Swap Requirement *</label>
+                        <input type="text" id="form-price" required placeholder="e.g., 4500 INR / Swap with Yeezy 350" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-zinc-400 mb-1">Shoe Condition *</label>
+                        <input type="text" id="form-usage" required placeholder="e.g., Deadstock (Unworn) / 9/10 Condition" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-zinc-400 mb-1">Shoe Size (UK/India) *</label>
+                        <select id="form-size" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                            <option value="UK 5">UK 5</option>
+                            <option value="UK 6">UK 6</option>
+                            <option value="UK 7">UK 7</option>
+                            <option value="UK 8" selected>UK 8</option>
+                            <option value="UK 9">UK 9</option>
+                            <option value="UK 10">UK 10</option>
+                            <option value="UK 11">UK 11</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-zinc-400 mb-1">Gender Section *</label>
+                        <select id="form-segment" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                            <option value="men">Men's Shoe (Blue Card Frame)</option>
+                            <option value="women">Women's Shoe (Pink Card Frame)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-zinc-400 mb-1">Shoe Category *</label>
+                        <select id="form-type" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                            <option value="Sneakers">Sneakers / Hype Wear</option>
+                            <option value="Sports/Formal">Sports / Athletic / Formals</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-zinc-400 mb-1">Shoe High-Res Image URL *</label>
+                    <input type="url" id="form-img" required placeholder="https://images.unsplash.com/photo-..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </div>
+
+                <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 space-y-3">
+                    <span class="font-bold text-amber-400 text-xs uppercase tracking-wide block">Your Contact Verification</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-500 mb-0.5">Phone Number *</label>
+                            <input type="tel" id="form-phone" required placeholder="+91 98765 43210" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-500 mb-0.5">Email ID *</label>
+                            <input type="email" id="form-email" required placeholder="sneakerhead@gmail.com" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-white focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-500 mb-0.5">Crease, Box, & Insole details</label>
+                        <textarea id="form-extra" placeholder="Mention if OG box is available, extra laces status, or sole condition..." rows="2" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-white focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('sell-modal')" class="px-5 py-2.5 font-bold text-zinc-500 hover:text-zinc-300 transition">Cancel</button>
+                    <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-black font-black px-6 py-2.5 rounded-xl shadow-md">Post To Vault</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="success-toast" class="fixed bottom-6 right-6 bg-zinc-900 text-white font-bold px-6 py-4 rounded-2xl shadow-2xl border border-zinc-700 z-50 flex items-center gap-3 hidden">
+        <div class="p-1.5 bg-zinc-800 rounded-lg border border-zinc-700"><i data-lucide="check-circle" class="w-5 h-5 text-amber-400"></i></div>
+        <div>
+            <p id="toast-main-text" class="text-base">Kicks Added!</p>
+            <p id="toast-sub-text" class="text-xs font-medium opacity-80 text-zinc-400"></p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CORE CODE -->
+    <script>
+        let currentLoggedInEmail = "sneaker.head@gmail.com";
+        let activeSegment = 'all';
+        let activeType = 'all-types';
+
+        // 16 Premium Dynamic Shoes Base Dataset (Mixed Premium Men & Women)
+        let productsBase = [
+            // --- Men's Vault Items (1-8) ---
+            { id: 1, title: "Nike Air Jordan 1 Retro High 'Chicago'", price: "14,500 INR", size: "UK 9", usage: "Deadstock (Brand New)", segment: "men", type: "Sneakers", img: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600", phone: "+91 9988776655", email: "rahul.kicks@gmail.com", extra: "100% authentic with bill, box and extra black laces. Zero creases.", intent: "Want Yeezy Swap" },
+            { id: 2, title: "Adidas Yeezy Boost 350 V2 Onyx", price: "12,000 INR", size: "UK 8", usage: "Worn Thrice", segment: "men", type: "Sneakers", img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600", phone: "+91 8877665544", email: "aman.sneaks@gmail.com", extra: "Boost sole is super clean. OG box included. Minor insoles print fade.", intent: "Exchange / Sell" },
+            { id: 3, title: "Nike Air Max Alpha Trainer 5", price: "4,200 INR", size: "UK 10", usage: "1 Month Used", segment: "men", type: "Sports/Formal", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", phone: "+91 7766554433", email: "fitness.pro@gmail.com", extra: "Best for heavy gym running sessions. Max Air unit cushioning is perfect.", intent: "Direct Swap" },
+            { id: 4, title: "Premium Handcrafted Tan Leather Oxford", price: "3,800 INR", size: "UK 8", usage: "Worn Once", segment: "men", type: "Sports/Formal", img: "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=600", phone: "+91 9812345678", email: "corporate.wear@gmail.com", extra: "Pure Italian genuine leather. Worn just for a wedding ceremony.", intent: "Willing to Swap" },
+            { id: 5, title: "Puma RS-X Triple Black Chunky Kicks", price: "3,999 INR", size: "UK 9", usage: "3 Months Old", segment: "men", type: "Sneakers", img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600", phone: "+91 9112233445", email: "streetwear.vibe@gmail.com", extra: "Extremely comfortable street style. Mesh body completely cleaned up.", intent: "Instant Swap" },
+            { id: 6, title: "Asics Gel-Kayano 29 Running Shoes", price: "6,500 INR", size: "UK 10", usage: "2 Weeks Used", segment: "men", type: "Sports/Formal", img: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=600", phone: "+91 8765432109", email: "marathon.runner@gmail.com", extra: "Top tier stability shoe layout. Selling because size doesn't fit properly.", intent: "Fast Exchange" },
+            { id: 7, title: "New Balance 550 White Burgundy", price: "8,900 INR", size: "UK 9", usage: "9/10 Condition", segment: "men", type: "Sneakers", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600", phone: "+91 7011223344", email: "retro.collector@gmail.com", extra: "Very clean retro aesthetic layout. Box intact with premium tags.", intent: "Swap with NB 9060" },
+            { id: 8, title: "Vans Old Skool Classic Canvas", price: "1,999 INR", size: "UK 7", usage: "5 Months Used", segment: "men", type: "Sneakers", img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600", phone: "+91 9560112233", email: "skate.board@gmail.com", extra: "Classic skate style shoe layout. Solid rubber waffle grip outsole architecture.", intent: "Direct Sale/Swap" },
+
+            // --- Women's Vault Items (9-16) ---
+            { id: 9, title: "Nike Air Force 1 '07 Pastel Custom", price: "5,800 INR", size: "UK 6", usage: "Worn Twice", segment: "women", type: "Sneakers", img: "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=600", phone: "+91 9444555666", email: "sneha.sneaks@gmail.com", extra: "Beautiful customized premium drip lines. Box included, fully clean laces setup.", intent: "Swap or Sell" },
+            { id: 10, title: "Stiletto Velvet Pink Party Heels", price: "2,499 INR", size: "UK 5", usage: "Worn Once", segment: "women", type: "Sports/Formal", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600", phone: "+91 8130112233", email: "diva.wardrobe@gmail.com", extra: "4-inch sharp glossy heel layout structure. Zero scratches on base.", intent: "Swap with Platform" },
+            { id: 11, title: "Adidas Originals Stan Smith Pink Heel", price: "3,500 INR", size: "UK 6", usage: "3 Months Used", segment: "women", type: "Sneakers", img: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600", phone: "+91 9000111222", email: "riya.style@gmail.com", extra: "Sustainable leather build matrix template. Perfect white look for everyday casuals.", intent: "Available" },
+            { id: 12, title: "Converse Chuck Taylor All Star High", price: "2,200 INR", size: "UK 6", usage: "Brand New", segment: "women", type: "Sneakers", img: "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600", phone: "+91 7890123456", email: "canvas.queen@gmail.com", extra: "Unused completely with tags intact. Classic core black tone canvas.", intent: "Instant Swap" },
+            { id: 13, title: "Puma Softride Sophia Running Shoes", price: "2,399 INR", size: "UK 7", usage: "1 Month Old", segment: "women", type: "Sports/Formal", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600", phone: "+91 9222333444", email: "pooja.trains@gmail.com", extra: "Softfoam premium insoles layout for incredible walking comfort drive.", intent: "Exchange Kicks" },
+            { id: 14, title: "Platform Chunky Gothic Black Boots", price: "3,200 INR", size: "UK 6", usage: "Worn Thrice", segment: "women", type: "Sports/Formal", img: "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=600", phone: "+91 8444555111", email: "goth.vibe@gmail.com", extra: "Heavy high ankle lace loop finish. Gives instant 3-inch height gain look.", intent: "Fast Selling" },
+            { id: 15, title: "Nike Dunk Low Rose Whisper", price: "9,500 INR", size: "UK 5", usage: "Deadstock (Unworn)", segment: "women", type: "Sneakers", img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600", phone: "+91 9333444555", email: "sneaker.girl@gmail.com", extra: "Authentic dynamic female colorway layout. Sourced from Nike factory app.", intent: "Swap with Jordan" },
+            { id: 16, title: "Sleek Casual Pointed Toe Flats", price: "1,200 INR", size: "UK 6", usage: "Worn Twice", segment: "women", type: "Sports/Formal", img: "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95?w=600", phone: "+91 7999888777", email: "office.flats@gmail.com", extra: "Comfort padding cushion inside. Great for everyday professional work hours.", intent: "Gift / Swap" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            syncUserAccountSession();
+            renderProductGrid();
+        });
+
+        function syncUserAccountSession() {
+            const rawUser = localStorage.getItem('user');
+            const token = localStorage.getItem('token');
+            const navIdentity = document.getElementById('navUserIdentity');
+            const navAvatar = document.getElementById('navUserAvatar');
+            const navName = document.getElementById('navUserName');
+
+            if (token && rawUser) {
+                try {
+                    const parsedUser = JSON.parse(rawUser);
+                    currentLoggedInEmail = parsedUser.email || "kicks.collector@gmail.com";
+                    if (navName) navName.textContent = parsedUser.name || "Collector";
+                    if (navAvatar && parsedUser.name) navAvatar.textContent = parsedUser.name.charAt(0).toUpperCase();
+                } catch(e) {
+                    console.error("Session fallback:", e);
+                }
+            } else {
+                currentLoggedInEmail = "sagnick.kicks@gmail.com";
+                if (navName) navName.textContent = "Sagnick User";
+                if (navAvatar) navAvatar.textContent = "S";
+            }
+            if (navIdentity) navIdentity.classList.remove('hidden');
+        }
+
+        // Render Shoe Cards Layout with Personalized Dynamic Border Coloring (Men = Blue Accent, Women = Pink Accent)
+        function renderProductGrid() {
+            const gridContainer = document.getElementById('product-grid');
+            gridContainer.innerHTML = "";
+
+            const filteredList = productsBase.filter(item => {
+                const matchSegment = (activeSegment === 'all' || item.segment === activeSegment);
+                const matchType = (activeType === 'all-types' || item.type === activeType);
+                return matchSegment && matchType;
+            });
+
+            if (filteredList.length === 0) {
+                gridContainer.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-zinc-500 font-medium">
+                        <i data-lucide="package-search" class="w-12 h-12 mx-auto mb-2 text-zinc-600"></i>
+                        No matching kicks found inside the Vault.
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            filteredList.forEach(product => {
+                // Determine premium frame border accent base rules
+                const frameColor = product.segment === 'men' 
+                    ? 'border-blue-900/50 hover:border-blue-500 shadow-blue-950/20' 
+                    : 'border-pink-900/50 hover:border-pink-500 shadow-pink-950/20';
+                
+                const badgeColor = product.segment === 'men' ? 'bg-blue-600 text-white' : 'bg-pink-600 text-white';
+
+                gridContainer.innerHTML += `
+                    <div class="product-card bg-zinc-900 rounded-2xl overflow-hidden border ${frameColor} shadow-xl flex flex-col justify-between">
+                        <div class="relative h-48 bg-zinc-950 cursor-pointer" onclick="openDetailsModal(${product.id})">
+                            <img src="${product.img}" alt="${product.title}" class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 left-3 text-[10px] font-black tracking-wider ${badgeColor} px-2.5 py-1 rounded-md uppercase shadow-lg border border-white/10">
+                                ${product.intent}
+                            </span>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div class="cursor-pointer mb-2" onclick="openDetailsModal(${product.id})">
+                                <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">${product.type} • Size ${product.size}</p>
+                                <h3 class="font-extrabold text-white text-sm line-clamp-2 hover:text-amber-400 transition">${product.title}</h3>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline justify-between mb-3">
+                                    <span class="text-xs text-zinc-400 font-semibold">State: <span class="text-amber-400 font-bold">${product.usage}</span></span>
+                                    <span class="text-base font-black text-amber-400">${product.price}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1.5">
+                                    <button onclick="openDetailsModal(${product.id})" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-1 rounded-xl font-bold text-xs text-center border border-zinc-700 transition">
+                                        View Specs
+                                    </button>
+                                    <button onclick="addItemToUserCart(${product.id})" class="bg-zinc-950 hover:bg-zinc-800 text-amber-400 py-2 px-1 rounded-xl font-bold text-xs flex items-center justify-center gap-1 border border-zinc-800 transition">
+                                        <i data-lucide="bookmark" class="w-3 h-3"></i> Wishlist
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            lucide.createIcons();
+        }
+
+        function addItemToUserCart(productId) {
+            const targetProduct = productsBase.find(p => p.id === productId);
+            if (!targetProduct) return;
+
+            const userCartKey = `shoe_cart_db_${currentLoggedInEmail}`;
+            let localCartArray = [];
+
+            try {
+                localCartArray = JSON.parse(localStorage.getItem(userCartKey)) || [];
+            } catch(e) {
+                localCartArray = [];
+            }
+
+            localCartArray.push({
+                id: targetProduct.id + "_" + Date.now(),
+                title: targetProduct.title,
+                size: targetProduct.size,
+                price: targetProduct.price,
+                img: targetProduct.img
+            });
+            localStorage.setItem(userCartKey, JSON.stringify(localCartArray));
+            showDynamicToast("Kicks Saved to Wishlist! 👟", `Linked inside account: ${currentLoggedInEmail}`);
+        }
+
+        function openDetailsModal(id) {
+            const product = productsBase.find(p => p.id === id);
+            if(!product) return;
+
+            document.getElementById('modal-img').src = product.img;
+            document.getElementById('modal-title').textContent = product.title;
+            document.getElementById('modal-price').textContent = product.price;
+            document.getElementById('modal-category').textContent = `${product.segment}'s footwear • ${product.type}`;
+            document.getElementById('modal-size').textContent = product.size;
+            document.getElementById('modal-usage').textContent = product.usage;
+            document.getElementById('modal-intent').textContent = product.intent;
+            document.getElementById('modal-phone').textContent = product.phone;
+            document.getElementById('modal-email').textContent = product.email;
+            document.getElementById('modal-call-btn').href = `tel:${product.phone}`;
+
+            document.getElementById('modal-cart-btn').onclick = () => {
+                addItemToUserCart(product.id);
+                closeModal('details-modal');
+            };
+
+            document.getElementById('modal-extra').textContent = product.extra || "No extra data provided by trader.";
+            document.getElementById('details-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function openSellModal() {
+            document.getElementById('sell-modal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const newProduct = {
+                id: productsBase.length + 1,
+                title: document.getElementById('form-title').value,
+                price: document.getElementById('form-price').value,
+                usage: document.getElementById('form-usage').value,
+                size: document.getElementById('form-size').value,
+                segment: document.getElementById('form-segment').value,
+                type: document.getElementById('form-type').value,
+                img: document.getElementById('form-img').value,
+                phone: document.getElementById('form-phone').value,
+                email: document.getElementById('form-email').value,
+                extra: document.getElementById('form-extra').value,
+                intent: "Direct Vault Entry"
+            };
+
+            productsBase.unshift(newProduct);
+            closeModal('sell-modal');
+            renderProductGrid();
+            document.getElementById('sell-form').reset();
+            showDynamicToast("Shoe Listed Successfully! 🚀", "Your kicks are live inside the premium marketplace vault.");
+        }
+
+        function filterSegment(seg) {
+            activeSegment = seg;
+            ['all', 'men', 'women'].forEach(s => {
+                const btn = document.getElementById(`btn-${s}`);
+                if (btn) {
+                    if(s === seg) {
+                        btn.className = "flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 bg-zinc-800 text-white shadow-sm border border-zinc-700";
+                    } else {
+                        btn.className = "flex-1 lg:flex-none px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-zinc-400 hover:text-white";
+                    }
+                }
+            });
+            renderProductGrid();
+        }
+
+        function filterType(type) {
+            activeType = type;
+            const btnMap = { 'all-types': 'type-all', 'Sneakers': 'type-sneakers', 'Sports/Formal': 'type-sports' };
+            Object.keys(btnMap).forEach(key => {
+                const element = document.getElementById(btnMap[key]);
+                if (element) {
+                    if(key === type) {
+                        element.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-black transition-all duration-200 shadow-md";
+                    } else {
+                        element.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-all duration-200 border border-zinc-700";
+                    }
+                }
+            });
+            renderProductGrid();
+        }
+
+        function showDynamicToast(main, sub) {
+            const toast = document.getElementById('success-toast');
+            document.getElementById('toast-main-text').textContent = main;
+            document.getElementById('toast-sub-text').textContent = sub;
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 3500);
+        }
+
+        function resetToHome() {
+            filterSegment('all');
+            filterType('all-types');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToProducts() {
+            document.getElementById('main-product-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
