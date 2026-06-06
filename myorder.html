@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Dashboard - My Orders & Cart</title>
+    <!-- Icons for Premium UI Touch -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Premium Theme Configuration --- */
+:root {
+    --primary-color: #ff4757;
+    --secondary-color: #2f3542;
+    --success-color: #2ed573;
+    --warning-color: #ffa502;
+    --background-color: #f1f2f6;
+    --surface-color: #ffffff;
+    --text-main: #1e272e;
+    --text-muted: #747d8c;
+    --border-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+    --corner-radius: 16px;
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    padding-top: 40px;
+}
+
+.dashboard-container {
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto 60px auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    animation: fadeInPage 0.6s ease-out;
+}
+
+@media (min-width: 992px) {
+    .dashboard-container {
+        grid-template-columns: 2.2fr 1fr;
+    }
+}
+
+/* --- Keyframe Animations --- */
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleInCard {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideInOrder {
+    from { transform: translateX(-30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- Global Structural Card Glassmorphism --- */
+.glass-card {
+    background: var(--surface-color);
+    border-radius: var(--corner-radius);
+    box-shadow: var(--border-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--secondary-color);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* ============================================
+   PROFILE & LOGGED IN EMAIL BANNER
+============================================ */
+.profile-banner {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #1e222b 100%);
+    color: white;
+}
+
+.user-identity-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar-frame {
+    width: 65px;
+    height: 65px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+}
+
+.identity-meta h2 {
+    font-size: 22px;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.identity-meta p {
+    color: #a4b0be;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.identity-meta p i {
+    color: var(--primary-color);
+}
+
+.secure-badge {
+    background: rgba(46, 213, 115, 0.15);
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================
+   ADDRESS MANAGEMENT COMPONENT
+============================================ */
+.address-box {
+    margin-bottom: 30px;
+}
+
+.address-wrapper {
+    background: #f8f9fa;
+    border: 1px dashed #ced6e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 15px;
+    transition: var(--transition-smooth);
+}
+
+.address-empty-text {
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.saved-address-display {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-main);
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.address-input-field {
+    width: 100%;
+    height: 100px;
+    padding: 15px;
+    border: 2px solid #e4e7eb;
+    border-radius: 10px;
+    resize: none;
+    outline: none;
+    font-size: 14px;
+    transition: var(--transition-smooth);
+    margin-bottom: 15px;
+    display: none;
+}
+
+.address-input-field:focus {
+    border-color: var(--primary-color);
+    background: #fff;
+}
+
+.btn-action {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+}
+
+.btn-edit-address {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.btn-edit-address:hover { background: #404b5e; }
+
+.btn-save-address {
+    background: var(--primary-color);
+    color: white;
+    display: none;
+    animation: scaleInCard 0.3s ease;
+}
+
+.btn-save-address:hover { background: #e04050; }
+
+/* ============================================
+   MY ORDERS TRACKING CARDS
+============================================ */
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8f9fa;
+    border: 1px solid #e4e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+    animation: slideInOrder 0.5s cubic-bezier(0.23, 1, 0.32, 1) backwards;
+}
+
+.order-product-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.order-img-preview {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.order-details-meta h4 {
+    font-size: 16px;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.order-id-tag {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: monospace;
+}
+
+.order-placement-timeline {
+    text-align: left;
+}
+
+@media (min-width: 768px) {
+    .order-placement-timeline { text-align: right; }
+}
+
+.order-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-shipped {
+    background: rgba(46, 213, 115, 0.12);
+    color: var(--success-color);
+}
+
+.status-processing {
+    background: rgba(255, 165, 0, 0.12);
+    color: var(--warning-color);
+}
+
+/* ============================================
+   MY CART PERSISTENT PANEL
+============================================ */
+.cart-sticky-panel {
+    align-self: start;
+    position: sticky;
+    top: 110px;
+}
+
+.cart-item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 5px;
+    transition: var(--transition-smooth);
+}
+
+.cart-item-list::-webkit-scrollbar {
+    width: 4px;
+}
+.cart-item-list::-webkit-scrollbar-thumb {
+    background: #ced6e0;
+    border-radius: 10px;
+}
+
+.cart-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f2f6;
+    animation: scaleInCard 0.3s ease;
+}
+
+.cart-product-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cart-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-title-meta h5 {
+    font-size: 14px;
+    font-weight: 600;
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cart-title-meta span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.cart-item-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.cart-empty-msg {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 20px 0;
+}
+
+.cart-summary-total {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+.summary-row.grand-total {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e4e7eb;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.btn-checkout {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--transition-smooth);
+}
+
+.btn-checkout:disabled {
+    background: #cbd5e1;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+
+.btn-checkout:hover:not(:disabled) {
+    background: #e04050;
+    box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+}
+
+/* Added Styling for Cut/Remove Button */
+.btn-remove-cart-item {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remove-cart-item:hover {
+    color: var(--primary-color);
+    transform: scale(1.15);
+}
+
+/* ============================================
+   ANIMATED POPUP MODAL (CHECKOUT SUCCESS)
+============================================ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.success-modal {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .success-modal {
+    transform: scale(1);
+}
+
+.success-icon-box {
+    width: 80px;
+    height: 80px;
+    background: rgba(46, 213, 115, 0.1);
+    color: var(--success-color);
+    border-radius: 50%;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+}
+
+.success-modal h3 {
+    font-size: 24px;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.success-modal p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.btn-modal-close {
+    background: var(--secondary-color);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-modal-close:hover {
+    background: #1e222b;
+}
+    </style>
+    </head>
+    <body>
+        <div class="dashboard-container">
+
+    <div class="glass-card profile-banner">
+        <div class="user-identity-box">
+            <div id="userAvatar" class="avatar-frame">U</div>
+            <div class="identity-meta">
+                <h2 id="userName">Welcome, User</h2>
+                <p><i class="fa-solid fa-envelope"></i> <span id="userEmail">user@example.com</span></p>
+            </div>
+        </div>
+        <div class="secure-badge">
+            <i class="fa-solid fa-shield-check"></i> Verified Account Mode
+        </div>
+    </div>
+
+    <main style="display: flex; flex-direction: column; gap: 30px;">
+        
+        <section class="glass-card address-box">
+            <h3 class="section-title"><i class="fa-solid fa-map-location-dot"></i> Delivery Address</h3>
+            
+            <div class="address-wrapper">
+                <div id="addressDisplay" class="saved-address-display">
+                    <span class="address-empty-text">No delivery address linked to this account database yet. Click below to add.</span>
+                </div>
+                <textarea id="addressInput" class="address-input-field" placeholder="Enter your full shipping address (House No, Street, City, Pincode)..."></textarea>
+                
+                <button id="editAddressBtn" class="btn-action btn-edit-address">
+                    <i class="fa-solid fa-pen-to-square"></i> Add Address
+                </button>
+                <button id="saveAddressBtn" class="btn-action btn-save-address">
+                    <i class="fa-solid fa-floppy-disk"></i> Save & Lock Address
+                </button>
+            </div>
+        </section>
+
+        <section class="glass-card">
+            <h3 class="section-title"><i class="fa-solid fa-box-open"></i> My Orders History</h3>
+            
+            <div class="orders-container" id="ordersContainer">
+                </div>
+        </section>
+
+    </main>
+
+    <aside class="glass-card cart-sticky-panel">
+        <h3 class="section-title"><i class="fa-solid fa-basket-shopping"></i> My Cart</h3>
+        
+        <div class="cart-item-list" id="cartItemList">
+            </div>
+
+        <div class="cart-summary-total">
+            <div class="summary-row">
+                <span>Items Total:</span>
+                <span id="summaryCount">0 Items</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping Fee:</span>
+                <span id="summaryShipping" style="color: var(--success-color);">FREE</span>
+            </div>
+            <div class="summary-row grand-total">
+                <span>Grand Total:</span>
+                <span id="summaryTotal">0 Swap Credits</span>
+            </div>
+        </div>
+
+        <button class="btn-checkout" id="checkoutBtn">
+            <i class="fa-solid fa-circle-check"></i> <span id="checkoutText">Proceed To Swap Checkout</span>
+        </button>
+    </aside>
+
+</div>
+
+<div class="modal-overlay" id="successModalOverlay">
+    <div class="success-modal">
+        <div class="success-icon-box">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3>Order Placed Successfully! 🎉</h3>
+        <p>Bhai, aapka order receive ho gaya hai. Cart se items aapki 'My Orders History' me secure pipeline ke sath shift ho gaye hain.</p>
+        <button class="btn-modal-close" id="modalCloseBtn">Awesome, Got It!</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Dom Selection Hooks
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const addressDisplay = document.getElementById('addressDisplay');
+    const addressInput = document.getElementById('addressInput');
+    const editAddressBtn = document.getElementById('editAddressBtn');
+    const saveAddressBtn = document.getElementById('saveAddressBtn');
+    
+    // Checkout & Cart DOM Hooks
+    const cartItemList = document.getElementById('cartItemList');
+    const ordersContainer = document.getElementById('ordersContainer');
+    const summaryCount = document.getElementById('summaryCount');
+    const summaryTotal = document.getElementById('summaryTotal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const checkoutText = document.getElementById('checkoutText');
+    const successModalOverlay = document.getElementById('successModalOverlay');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    let currentLoggedInEmail = "guest@example.com";
+    let isAddressSaved = false;
+
+    // --- DEMO DATABASES (Used if localStorage is empty for the user) ---
+    const defaultDemoCart = [
+        { id: 101, title: "Floral Summer Dress", size: "M", price: "1 Swap Credit", img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+        { id: 102, title: "Leather Biker Jacket", size: "XL", price: "1 Swap Credit", img: "https://images.unsplash.com/photo-1551028919-ac66e7e38b30?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" }
+    ];
+
+    const defaultDemoOrders = [
+        { id: "ST98342", title: "Vintage Denim Jacket", price: "1 Swap Credit", status: "Dispatched", icon: "fa-truck-fast", badgeClass: "status-shipped", img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" }
+    ];
+
+    // 1. DYNAMIC SESSION LOGIN SYNCRONIZATION
+    function checkUserSession() {
+        const token = localStorage.getItem('token');
+        const rawUserData = localStorage.getItem('user');
+
+        if (token && rawUserData) {
+            try {
+                const userPayload = JSON.parse(rawUserData);
+                currentLoggedInEmail = userPayload.email || "user@example.com";
+                
+                if (userName) userName.textContent = `Welcome, ${userPayload.name || 'User'}`;
+                if (userEmail) userEmail.textContent = currentLoggedInEmail;
+                if (userAvatar && userPayload.name) {
+                    userAvatar.textContent = userPayload.name.charAt(0).toUpperCase();
+                }
+            } catch (e) {
+                console.error("Failed to map live payload database profile:", e);
+            }
+        } else {
+            // Live Demo Fallbacks
+            userName.textContent = "Welcome, Demo User";
+            userEmail.textContent = "demo.user@gmail.com";
+            currentLoggedInEmail = "demo.user@gmail.com";
+        }
+    }
+
+    // --- CUT/REMOVE FUNCTIONALITY ENGINE ---
+   cartItemList.addEventListener("click", (e) => {
+
+    const btn = e.target.closest(".btn-remove-cart-item");
+    if (!btn) return;
+
+    const productId = btn.getAttribute("data-id");
+
+    const cartKey = `cart_db_${currentLoggedInEmail}`;
+    let activeCart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+    // SAFE REMOVE (string match fix)
+    activeCart = activeCart.filter(item => String(item.id) !== String(productId));
+
+    localStorage.setItem(cartKey, JSON.stringify(activeCart));
+
+    renderUserDatabaseData();
+});
+
+    // 2. DATA RENDER PIPELINE (Cart & Orders based on specific logged-in Gmail)
+    function renderUserDatabaseData() {
+        const cartKey = `cart_db_${currentLoggedInEmail}`;
+        const ordersKey = `orders_db_${currentLoggedInEmail}`;
+
+        // Initialize localDB arrays if not already exist
+        if (!localStorage.getItem(cartKey) && currentLoggedInEmail === "demo.user@gmail.com") {
+            localStorage.setItem(cartKey, JSON.stringify(defaultDemoCart));
+        }
+        if (!localStorage.getItem(ordersKey) && currentLoggedInEmail === "demo.user@gmail.com") {
+            localStorage.setItem(ordersKey, JSON.stringify(defaultDemoOrders));
+        }
+
+        const activeCart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        const activeOrders = JSON.parse(localStorage.getItem(ordersKey)) || [];
+
+        // RENDER CART
+        cartItemList.innerHTML = "";
+        if (activeCart.length === 0) {
+            cartItemList.innerHTML = `<div class="cart-empty-msg"><i class="fa-solid fa-basket-shopping"></i> Your cart is empty</div>`;
+            summaryCount.textContent = "0 Items";
+            summaryTotal.textContent = "0 Swap Credits";
+            checkoutBtn.disabled = true;
+        } else {
+            activeCart.forEach(item => {
+                cartItemList.innerHTML += `
+                    <div class="cart-row">
+                        <div class="cart-product-details">
+                            <img src="${item.img}" class="cart-thumb" alt="Cart Product">
+                            <div class="cart-title-meta">
+                                <h5>${item.title}</h5>
+                                <span>Size: ${item.size}</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="cart-item-price">Free (Swap)</div>
+                            <button class="btn-remove-cart-item" data-id="${item.id}" title="Remove Product">
+    <i class="fa-solid fa-trash-can"></i>
+</button>
+                        </div>
+                    </div>`;
+            });
+            summaryCount.textContent = `${activeCart.length} Items`;
+            summaryTotal.textContent = `${activeCart.length} Swap Credits`;
+            checkoutBtn.disabled = false;
+        }
+
+        // RENDER ORDERS HISTORY
+        ordersContainer.innerHTML = "";
+        if (activeOrders.length === 0) {
+            ordersContainer.innerHTML = `<div class="cart-empty-msg" style="padding:40px;"><i class="fa-solid fa-box-open" style="font-size:24px;"></i><br><br>No orders placed yet from this account.</div>`;
+        } else {
+            activeOrders.forEach((order, index) => {
+                ordersContainer.innerHTML += `
+                    <div class="order-card" style="animation-delay: ${index * 0.1}s;">
+                        <div class="order-product-info">
+                            <img src="${order.img}" class="order-img-preview" alt="Product">
+                            <div class="order-details-meta">
+                                <h4>${order.title}</h4>
+                                <span class="order-id-tag">ORDER_ID: # ${order.id}</span>
+                            </div>
+                        </div>
+                        <div class="order-placement-timeline">
+                            <div class="order-price">${order.price}</div>
+                            <span class="status-badge ${order.badgeClass}">
+                                <i class="fa-solid ${order.icon}"></i> ${order.status}
+                            </span>
+                        </div>
+                    </div>`;
+            });
+        }
+    }
+
+    // 3. TARGETED DB EMAIL ADDRESS CONTROLLER
+    function loadUserAddressFromDatabase() {
+        const storageKey = `address_db_${currentLoggedInEmail}`;
+        const savedAddress = localStorage.getItem(storageKey);
+
+        if (savedAddress && savedAddress.trim() !== "") {
+            addressDisplay.innerHTML = `<strong>Delivery Destination:</strong><br>${savedAddress}`;
+            addressInput.value = savedAddress;
+            editAddressBtn.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Change Address`;
+            isAddressSaved = true;
+        } else {
+            addressDisplay.innerHTML = `<span class="address-empty-text">No delivery address linked to this account database yet. Click below to add.</span>`;
+            addressInput.value = "";
+            editAddressBtn.innerHTML = `<i class="fa-solid fa-plus"></i> Add Address`;
+            isAddressSaved = false;
+        }
+    }
+
+    // Address Action Listeners
+    editAddressBtn.addEventListener('click', () => {
+        addressDisplay.style.display = 'none';
+        addressInput.style.display = 'block';
+        editAddressBtn.style.display = 'none';
+        saveAddressBtn.style.display = 'inline-flex';
+        addressInput.focus();
+    });
+
+    saveAddressBtn.addEventListener('click', () => {
+        const textValue = addressInput.value.trim();
+        const storageKey = `address_db_${currentLoggedInEmail}`;
+
+        if (textValue === "") {
+            alert("Address cannot be empty! Please provide valid location address.");
+            return;
+        }
+
+        localStorage.setItem(storageKey, textValue);
+        
+        addressDisplay.style.display = 'block';
+        addressInput.style.display = 'none';
+        editAddressBtn.style.display = 'inline-flex';
+        saveAddressBtn.style.display = 'none';
+        
+        loadUserAddressFromDatabase();
+    });
+
+    // ============================================
+    // 4. INTERACTIVE CHECKOUT & PIPELINE ENGINE
+    // ============================================
+    checkoutBtn.addEventListener('click', () => {
+        if (!isAddressSaved) {
+            alert("Bhai, checkout karne se pehle kripya apna 'Delivery Address' add karke save kar lijiye!");
+            addressDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        // Processing Loop UI Change
+        checkoutBtn.style.pointerEvents = 'none';
+        checkoutBtn.style.opacity = '0.8';
+        checkoutText.textContent = "Processing Swap Exchange...";
+        checkoutBtn.querySelector('i').className = "fa-solid fa-spinner fa-spin";
+
+        setTimeout(() => {
+            const cartKey = `cart_db_${currentLoggedInEmail}`;
+            const ordersKey = `orders_db_${currentLoggedInEmail}`;
+
+            let currentCart = JSON.parse(localStorage.getItem(cartKey)) || [];
+            let currentOrders = JSON.parse(localStorage.getItem(ordersKey)) || [];
+
+            // Shift All Cart Items to Order History Array
+            currentCart.forEach(item => {
+                const generatedOrderID = "ST" + Math.floor(10000 + Math.random() * 90000);
+                currentOrders.unshift({
+                    id: generatedOrderID,
+                    title: item.title,
+                    price: item.price,
+                    status: "Processing Exchange",
+                    icon: "fa-spinner fa-spin",
+                    badgeClass: "status-processing",
+                    img: item.img
+                });
+            });
+
+            // Update Database: Save new Orders state and Flush Cart completely
+            localStorage.setItem(ordersKey, JSON.stringify(currentOrders));
+            localStorage.setItem(cartKey, JSON.stringify([]));
+
+            // Refresh Screen layout views
+            renderUserDatabaseData();
+
+            // Open Premium Success Modal Popup Window
+            successModalOverlay.classList.add('active');
+            
+            // Revert Checkout Button UI State
+            checkoutBtn.style.pointerEvents = 'auto';
+            checkoutBtn.style.opacity = '1';
+            checkoutText.textContent = "Proceed To Swap Checkout";
+            checkoutBtn.querySelector('i').className = "fa-solid fa-circle-check";
+        }, 1800); 
+    });
+
+    modalCloseBtn.addEventListener('click', () => {
+        successModalOverlay.classList.remove('active');
+    });
+
+    // Run Engine Initializations Cascade Sequence On Start
+    checkUserSession();
+    renderUserDatabaseData();
+    loadUserAddressFromDatabase();
+});
+
+</script>
+
+    </body>
+</html>
